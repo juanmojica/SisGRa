@@ -7,14 +7,21 @@ use Illuminate\Http\Request;
 
 class PolicialController extends Controller
 {
+    public function __construct(Policial $policial){
+        $this->policial = $policial;
+    }
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return 'index';
+    public function index(){
+
+        $policiais = $this->policial->all();
+
+        return response()->json($policiais, 200);
+    
     }
 
     /**
@@ -23,44 +30,78 @@ class PolicialController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $policial = Policial::create($request->all());
-        dd($policial);
-        return ['msg' => 'store'];
+    public function store(Request $request){
+        
+        //valida os campos enviados na requisição
+        $request->validate($this->policial->rules(), $this->policial->feedback());
+
+        $policial = $this->policial->create($request->all());
+
+        return response()->json($policial, 201);
+    
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Policial  $policial
+     * @param  Integer
      * @return \Illuminate\Http\Response
      */
-    public function show(Policial $policial)
-    {
-        return 'show';
+    public function show($id){
+
+        $policial = $this->policial->find($id);
+
+         //verifica se o policial pesquisado existe no banco
+        if ($policial === null) {
+            return response()->json(['erro' => 'O recurso solicitado não existe.'], 404);
+        }
+
+        return response()->json($policial, 200);
+    
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Policial  $policial
+     * @param  Integer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Policial $policial)
-    {
-        return 'update';
+    public function update(Request $request, $id){
+
+        $policial = $this->policial->find($id);
+
+        //verifica se o policial pesquisado existe no banco
+        if ($policial === null) {
+            return response()->json(['erro' => 'Impossível atualizar! O recurso solicitado não existe.'], 404);
+        }
+
+        //valida os campos enviados na requisição
+        $request->validate($policial->rules(), $policial->feedback());
+
+        $policial->update($request->all());
+
+        return response()->json($policial, 200);
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Policial  $policial
+     * @param  Integer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Policial $policial)
-    {
-        return 'destroy';
+    public function destroy($id){
+
+        $policial = $this->policial->find($id);
+        
+        //verifica se o policial pesquisado existe no banco
+        if ($policial === null) {
+            return response()->json(['erro' => 'Impossível excluir! O recurso solicitado não existe.'], 404);
+        }
+
+        $policial->delete();
+        return response()->json(['msg' => 'policial deletado com sucesso'], 200);
+
     }
 }
