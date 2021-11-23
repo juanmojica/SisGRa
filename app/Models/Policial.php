@@ -21,11 +21,11 @@ class Policial extends Model
 
     public function rules(){
         return [
-            'st_nome' => 'required', 
-            'st_matricula' => 'required|min:3|max:10|unique:policiais,st_matricula,'.$this->id, 
-            'st_nome_guerra' => 'required', 
-            'st_posto/grad' => 'required', 
-            'st_unidade' => 'required',
+            'nome' => 'required', 
+            'matricula' => 'required|min:3|max:10|unique:policiais,st_matricula,'.$this->id, 
+            'nome_guerra' => 'required', 
+            'posto_grad' => 'required', 
+            'unidade' => 'required',
         ];
     }
 

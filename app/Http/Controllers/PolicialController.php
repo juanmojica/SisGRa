@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class PolicialController extends Controller
 {
+    
     public function __construct(Policial $policial){
         $this->policial = $policial;
     }
@@ -18,9 +19,7 @@ class PolicialController extends Controller
      */
     public function index(){
 
-        $policiais = $this->policial->all();
-
-        return response()->json($policiais, 200);
+        return response()->json($this->policial->all(), 200);
     
     }
 
@@ -34,8 +33,14 @@ class PolicialController extends Controller
         
         //valida os campos enviados na requisição
         $request->validate($this->policial->rules(), $this->policial->feedback());
-
-        $policial = $this->policial->create($request->all());
+        
+        $policial = $this->policial->create([
+            'st_nome'=> $request->nome,
+            'st_matricula'=> $request->matricula,
+            'st_nome_guerra'=> $request->nome_guerra,
+            'st_posto/grad'=> $request->posto_grad,
+            'st_unidade'=> $request->unidade,
+        ]);
 
         return response()->json($policial, 201);
     
@@ -104,4 +109,5 @@ class PolicialController extends Controller
         return response()->json(['msg' => 'policial deletado com sucesso'], 200);
 
     }
+    
 }
