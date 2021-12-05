@@ -15,8 +15,8 @@ class CreateCautelasTable extends Migration
     {
         Schema::create('cautelas', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('dt_recebimento');
-            $table->dateTime('dt_devolucao');
+            $table->date('dt_recebimento');
+            $table->date('dt_devolucao');
             $table->string('st_observacao', 300);
             $table->timestamps();
 

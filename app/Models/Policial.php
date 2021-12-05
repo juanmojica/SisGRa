@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Policial extends Model
 {
@@ -36,6 +37,10 @@ class Policial extends Model
             'max' => 'O campo :attribute deve ter no máximo 10 caracteres.',
             'unique' => 'A :attribute informada já está cadastrada para outro usuário.',
         ];
+    }
+
+    public function cautelas() {
+        return $this->hasMany('Cautela');
     }
 
 }

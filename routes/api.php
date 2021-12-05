@@ -16,10 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/* Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+}); */
 
+//rotas para policiais
 Route::apiResource('policial', 'PolicialController');
+
+//rotas para radios
 Route::apiResource('radio', 'RadioController');
+
+//rotas para cautelas
 Route::apiResource('cautela', 'CautelaController');
